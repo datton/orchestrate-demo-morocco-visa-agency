@@ -45,17 +45,21 @@
     btn.addEventListener('click', open);
     place();
     // nav.js adds the header after load; retry briefly, otherwise stay as a floating button.
-    var tries = 0, t = setInterval(function () { if (place() || ++tries > 20) clearInterval(t); }, 150);
+    var t = setInterval(function () { if (place() || ++tries > 20) clearInterval(t); }, 150);
   }
+  var tries = 0;
+  function floatIt() { if (!btn.parentNode) { btn.classList.add('cart-button--float'); document.body.appendChild(btn); } }
   function place() {
-    var host = document.querySelector('header .site-nav, header nav, .site-header nav, header');
+    var host = document.getElementById('site-actions') || document.querySelector('header .site-nav, header nav, .site-header nav, header');
     if (host && btn.parentNode !== host) {
+      // keep retrying until #site-actions exists, so we do not settle in a collapsing nav
+      if (host.id !== 'site-actions' && tries < 10) { floatIt(); return false; }
       btn.classList.remove('cart-button--float');
       host.appendChild(btn);
       return true;
     }
-    if (!btn.parentNode) { btn.classList.add('cart-button--float'); document.body.appendChild(btn); }
-    return !!host;
+    floatIt();
+    return !!host && host.id === 'site-actions';
   }
 
   function open() {
