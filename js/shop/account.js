@@ -5,7 +5,7 @@
   var esc = Shop.esc, cat = null;
 
   function itemOf(id) { return ((cat && cat.items) || []).filter(function (i) { return i.id === id; })[0] || {}; }
-  function linkOf(it) { return it.guide || it.unlock || it.link || it.url || it.page || ''; }
+  function linkOf(it) { var l = it.guide || it.unlock || it.link || it.url || it.page || ''; if (!l && /^(guides|walkthroughs)$/.test(String(it.category || '').toLowerCase())) l = 'pages/guides/' + it.id + '.html'; return l; }
   function isDigital(it) { return !!linkOf(it) || /guide|walkthrough/.test(String(it.kind || it.type || it.category || '').toLowerCase()); }
   function paid(o) { return o.status && o.status !== 'pending' && o.status !== 'cancelled' && o.status !== 'refunded'; }
   function date(iso) {

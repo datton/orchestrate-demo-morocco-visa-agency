@@ -3,13 +3,15 @@
   'use strict';
   var root = document.getElementById('order-root');
   var token = Shop.param('o');
-  var cat = null, timer = null, tick = null, lastOrder = null;
+  var cat = null, timer = null, tick = null, lastOrder = null, cartCleared = false;
   var esc = Shop.esc;
 
   function listOf(v) { return v == null ? [] : (Array.isArray(v) ? v : [v]); }
   function meta(line) {
     var item = ((cat && cat.items) || []).filter(function (i) { return i.id === line.item; })[0] || {};
     var link = item.guide || item.unlock || item.link || item.url || item.page || '';
+    var kindx = String(item.category || '').toLowerCase();
+    if (!link && /^(guides|walkthroughs)$/.test(kindx)) link = 'pages/guides/' + item.id + '.html';
     var kind = String(item.kind || item.type || item.category || '').toLowerCase();
     var digital = !!link || /guide|walkthrough/.test(kind);
     var next = listOf(item.next || item.afterBuying || item.whatNext || item.after);
@@ -41,6 +43,7 @@
   function render(o) {
     lastOrder = o;
     var ok = paid(o);
+    if (ok && !cartCleared) { cartCleared = true; Shop.saveCart([]); }
     var h = '<p class="ord__eyebrow">Order confirmation</p>';
     if (o.status === 'cancelled' || o.status === 'refunded') {
       h += '<h1 class="ord__title">Order ' + esc(o.status === 'refunded' ? 'refunded' : 'cancelled') + '</h1>' +
