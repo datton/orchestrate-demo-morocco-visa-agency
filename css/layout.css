@@ -1,12 +1,12 @@
 /* Layout, shell and motion (UI/UX). Colours and type come from tokens.css; fallbacks keep it working alone. */
 @view-transition { navigation: auto; }
-:root{--lx-bg:var(--bg,#fbfaf7);--lx-fg:var(--fg,var(--ink,#16130f));--lx-accent:var(--accent,#b3402a);--lx-muted:var(--muted,#5f5a52);--lx-line:var(--line,rgba(0,0,0,.1));--lx-dark:var(--dark,#14110d);--lx-ease:cubic-bezier(.2,.7,.2,1);--lx-space:clamp(5rem,12vw,10rem);--lx-gut:clamp(1.25rem,5vw,4rem);--lx-max:78rem}
+:root{--lx-bg:var(--bg,#fbf8f3);--lx-fg:var(--text,#14202e);--lx-accent:var(--accent,#b3361f);--lx-muted:var(--text-muted,#4d5a69);--lx-line:var(--line,#e1d9cb);--lx-dark:var(--dark,#0f1b2a);--lx-on-dark:var(--on-dark,#f7f3ec);--lx-ease:var(--ease,cubic-bezier(.2,.7,.2,1));--lx-space:var(--section,clamp(5rem,12vw,10rem));--lx-gut:var(--gutter,clamp(1.25rem,5vw,4rem));--lx-max:78rem}
 *,*::before,*::after{box-sizing:border-box}
 html{scroll-behavior:smooth;scroll-padding-top:5rem;-webkit-text-size-adjust:100%}
-body{margin:0;background:var(--lx-bg);color:var(--lx-fg);font-family:var(--font-body,system-ui,-apple-system,"Segoe UI",Roboto,sans-serif);line-height:1.6;overflow-x:hidden}
+body{margin:0;background:var(--lx-bg);color:var(--lx-fg);font-family:var(--font-sans,system-ui,sans-serif);line-height:1.6;overflow-x:hidden}
 img,svg{max-width:100%;height:auto}
 main{display:block;outline:none}
-:focus-visible{outline:3px solid var(--lx-accent);outline-offset:3px;border-radius:4px}
+:focus-visible{outline:3px solid var(--focus,var(--lx-accent));outline-offset:3px;border-radius:4px}
 .visually-hidden{position:absolute!important;width:1px;height:1px;overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap}
 .skip-link{position:fixed;left:1rem;top:-4rem;z-index:200;background:var(--lx-fg);color:var(--lx-bg);padding:.7rem 1rem;border-radius:.5rem;text-decoration:none;transition:top .2s}
 .skip-link:focus{top:1rem}
@@ -38,24 +38,24 @@ main{display:block;outline:none}
   .site-nav a{padding:.85rem .5rem;font-size:1.1rem}
 }
 /* footer */
-.site-footer{background:var(--lx-dark);color:#e9e5dd;padding:clamp(3rem,8vw,6rem) var(--lx-gut) 2rem;margin-top:var(--lx-space)}
+.site-footer{background:var(--lx-dark);color:var(--lx-on-dark);padding:clamp(3rem,8vw,6rem) var(--lx-gut) 2rem;margin-top:var(--lx-space)}
 .site-footer__inner{max-width:var(--lx-max);margin:0 auto;display:grid;gap:1.5rem 3rem;grid-template-columns:2fr 1fr}
-.site-footer p{margin:.4rem 0;max-width:60ch;color:#b9b3a8}
+.site-footer p{margin:.4rem 0;max-width:60ch;color:var(--on-dark-muted,#aab6c4)}
 .site-footer strong{font-size:1.25rem;color:#fff}
 .site-footer ul{flex-direction:column}
-.site-footer a{color:#e9e5dd;text-underline-offset:.25em}
+.site-footer a{color:var(--lx-on-dark);text-underline-offset:.25em}
 .site-footer__test{grid-column:1/-1;color:#fff!important;font-weight:600;border-top:1px solid rgba(255,255,255,.14);padding-top:1.2rem}
 .site-footer__small{grid-column:1/-1;font-size:.85rem}
 @media (max-width:48rem){.site-footer__inner{grid-template-columns:1fr}}
 /* bands */
 .band{padding:var(--lx-space) var(--lx-gut)}
 .band>*{max-width:var(--lx-max);margin-inline:auto}
-.band--dark{background:var(--lx-dark);color:#f3efe8}
-.band h2,.hero h1{letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
-.band h2{font-size:clamp(2.2rem,6vw,4.5rem);margin:0 0 1.5rem}
+.band--dark{background:var(--lx-dark);color:var(--lx-on-dark)}.band--dark [data-rotate],.band--dark .steps__word{color:var(--accent-on-dark,#ff9a82)}
+.band h2,.hero h1{font-family:var(--font-display,inherit);letter-spacing:-.035em;line-height:1.02;text-wrap:balance}
+.band h2{font-size:var(--fs-h2,clamp(2.2rem,6vw,4.5rem));margin:0 0 1.5rem}
 .band p{max-width:65ch}
 .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding:6rem var(--lx-gut)}
-.hero h1{font-size:clamp(3rem,9vw,7rem);margin:0 0 1.5rem;max-width:16ch}
+.hero h1{font-size:var(--fs-h1,clamp(3rem,9vw,7rem));margin:0 0 1.5rem;max-width:16ch}
 a{text-underline-offset:.2em}
 .btn,button.btn{transition:transform .3s var(--lx-ease),box-shadow .3s}
 .btn:hover{transform:translateY(-2px)}
