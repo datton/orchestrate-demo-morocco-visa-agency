@@ -1,0 +1,33 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Your order</title>
+<meta name="description" content="Your order confirmation: what you bought, what happens next and your receipt.">
+<style>@view-transition { navigation: auto; }</style>
+<link rel="stylesheet" href="../css/tokens.css">
+<link rel="stylesheet" href="../css/layout.css">
+<link rel="stylesheet" href="../css/site.css">
+<link rel="stylesheet" href="../css/shop/core.css">
+<link rel="stylesheet" href="../css/shop/order.css">
+<script src="../js/nav.js" defer></script>
+<script src="../js/motion.js" defer></script>
+<script src="../js/app.js" defer></script>
+<script src="../js/shop/core.js" defer></script>
+<script src="../js/shop/cart.js" defer></script>
+<script src="../js/shop/order.js" defer></script>
+</head>
+<body>
+<main id="main">
+  <section class="band ord">
+    <div class="ord__wrap" id="order-root" aria-live="polite">
+      <p class="ord__eyebrow" data-reveal>Order confirmation</p>
+      <h1 class="ord__title" data-reveal>Checking your order…</h1>
+      <noscript><p>This page needs JavaScript to show your order. Your receipt was recorded by the shop service.</p></noscript>
+    </div>
+    <p class="shop-testlabel ord__test">Demo shop: test payments only. No real money moves.</p>
+  </section>
+</main>
+</body>
+</html>

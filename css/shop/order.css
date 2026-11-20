@@ -1,0 +1,38 @@
+/* Order confirmation and My purchases (Senior Developer 4). Colours only from tokens.css. */
+.ord { padding-block: clamp(3rem, 8vw, 6rem); }
+.ord__wrap { max-width: 52rem; margin-inline: auto; padding-inline: 1rem; }
+.ord__eyebrow { margin: 0 0 .5rem; font-size: .85rem; letter-spacing: .12em; text-transform: uppercase; color: var(--accent, #0a6b4b); font-weight: 700; }
+.ord__title { margin: 0 0 1rem; font-size: clamp(2rem, 6vw, 4rem); line-height: 1.05; letter-spacing: -.03em; }
+.ord__muted { color: var(--muted, #555); max-width: 65ch; }
+.ord__test { margin: 2rem auto 0; max-width: 52rem; padding-inline: 1rem; font-size: .9rem; }
+.ord__number { display: inline-flex; flex-direction: column; margin: .5rem 0 1.5rem; padding: 1rem 1.5rem; border-radius: 1rem; background: var(--surface, #f4f4f2); box-shadow: 0 6px 24px rgba(0,0,0,.08); }
+.ord__number small { font-size: .8rem; color: var(--muted, #555); text-transform: uppercase; letter-spacing: .1em; }
+.ord__number strong { font-size: clamp(2.5rem, 9vw, 4.5rem); font-family: ui-monospace, Menlo, Consolas, monospace; letter-spacing: -.02em; line-height: 1.05; }
+.ord__card { margin: 0 0 1.25rem; padding: 1.25rem 1.5rem; border-radius: 1rem; background: var(--surface, #f4f4f2); box-shadow: 0 4px 18px rgba(0,0,0,.06); }
+.ord__card h2 { margin: 0 0 .75rem; font-size: 1.3rem; letter-spacing: -.01em; }
+.ord__lines, .ord__steps, .ord__list { list-style: none; margin: 0; padding: 0; }
+.ord__lines li { display: flex; justify-content: space-between; gap: 1rem; padding: .6rem 0; border-bottom: 1px solid var(--border, rgba(0,0,0,.12)); }
+.ord__lines li:last-child { border-bottom: 0; }
+.ord__lines small { display: block; color: var(--muted, #555); }
+.ord__sum { display: flex; justify-content: space-between; margin-top: .5rem; padding-top: .5rem; border-top: 2px solid var(--border, rgba(0,0,0,.2)); font-weight: 700; }
+.ord__sub { display: flex; justify-content: space-between; color: var(--muted, #555); margin-top: .25rem; }
+.ord__next { padding: .75rem 0; border-bottom: 1px solid var(--border, rgba(0,0,0,.12)); }
+.ord__next:last-child { border-bottom: 0; }
+.ord__next h3 { margin: 0 0 .25rem; font-size: 1.05rem; }
+.ord__next p { margin: .15rem 0; max-width: 65ch; }
+.ord__steps { display: flex; flex-wrap: wrap; gap: .5rem; margin-bottom: .75rem; }
+.ord__steps li { padding: .35rem .8rem; border-radius: 999px; background: var(--bg, #fff); border: 1px solid var(--border, rgba(0,0,0,.2)); font-size: .9rem; color: var(--muted, #555); }
+.ord__steps li.is-done { background: var(--accent, #0a6b4b); border-color: var(--accent, #0a6b4b); color: var(--on-accent, #fff); }
+.ord__actions { display: flex; flex-wrap: wrap; gap: .75rem; margin-top: 1rem; }
+.ord__error { padding: 1rem 1.25rem; border-radius: .75rem; border: 2px solid var(--danger, #b3261e); }
+.ord__unlock { display: inline-flex; align-items: center; gap: .4rem; }
+.ord__badge { display: inline-block; padding: .1rem .6rem; border-radius: 999px; font-size: .78rem; font-weight: 700; background: var(--accent, #0a6b4b); color: var(--on-accent, #fff); }
+.ord__badge--off { background: var(--muted, #555); }
+.ord__list > li { display: flex; flex-wrap: wrap; justify-content: space-between; align-items: center; gap: .5rem 1rem; padding: .75rem 0; border-bottom: 1px solid var(--border, rgba(0,0,0,.12)); }
+.ord__list > li:last-child { border-bottom: 0; }
+.ord__orders summary { cursor: pointer; font-weight: 600; padding: .5rem 0; }
+.ord__empty { padding: 2rem 1.5rem; text-align: center; }
+.ord__gate { margin-top: 2rem; font-size: .9rem; }
+@media (max-width: 40rem) { .ord__card { padding: 1rem; } .ord__actions .btn { flex: 1 1 100%; text-align: center; } }
+@media (prefers-reduced-motion: no-preference) { .ord__card { animation: ord-in .6s cubic-bezier(.2,.7,.2,1) both; } }
+@keyframes ord-in { from { opacity: 0; transform: translateY(14px); } to { opacity: 1; transform: none; } }
