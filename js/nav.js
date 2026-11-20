@@ -8,6 +8,7 @@
   var NAV = [
     { label: 'Home', href: base + 'index.html', match: /\/$|\/index$/ },
     { label: 'Services', href: base + 'pages/services.html', match: /services\.html$/ },
+    { label: 'Guides', href: base + 'pages/guides/index.html', match: /guides\// },
     { label: 'My purchases', href: base + 'pages/account.html', match: /(account|order)\.html$/ }
   ];
   function current(item) { return item.match.test(path) || (item.label === 'Home' && path === '/'); }
