@@ -16,8 +16,8 @@
   function priceOf(it) { return it.price_cents != null ? it.price_cents : it.price != null ? it.price : it.priceCents; }
   function renderServices() {
     var box = $('service-cards'); if (!box) return;
-    if (!window.Shop || !Shop.loadCatalog) { return; }
-    Shop.loadCatalog().then(function (c) {
+    if (!window.Shop || !Shop.catalog) { return; }
+    Shop.catalog().then(function (c) {
       var list = items(c).filter(function (i) { return !i.hidden && i.active !== false; }).slice(0, 6);
       if (!list.length) return;
       box.innerHTML = list.map(function (i) {
@@ -58,13 +58,6 @@
     }
     box.addEventListener('change', function (e) { var s = store(); s[e.target.dataset.i] = e.target.checked; store(s); update(); });
     update();
-  }
-
-  // Sticky step word fallback if motion.js does not handle it
-  var word = $('step-word');
-  if (word && 'IntersectionObserver' in window) {
-    var io = new IntersectionObserver(function (es) { es.forEach(function (en) { if (en.isIntersecting) word.textContent = en.target.getAttribute('data-step'); }); }, { rootMargin: '-45% 0px -45% 0px' });
-    document.querySelectorAll('#how [data-step]').forEach(function (s) { io.observe(s); });
   }
 
   function init() { renderServices(); renderChecklist(); }

@@ -29,7 +29,7 @@ h2.big{font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.03em
 .card h3{margin:0;font-size:1.3rem}.card p{margin:0}
 .price{font-size:1.8rem;font-weight:700;letter-spacing:-.02em;margin-top:auto}
 .steps{display:grid;grid-template-columns:1fr 1fr;gap:3rem;align-items:start}
-.steps .word{position:sticky;top:20vh;font-size:clamp(4rem,14vw,11rem);font-weight:800;letter-spacing:-.05em;line-height:1;color:var(--accent)}
+.steps .word,.steps [data-step-word]{position:sticky;top:20vh;font-size:clamp(4rem,14vw,11rem);font-weight:800;letter-spacing:-.05em;line-height:1;color:var(--accent)}
 .steps .step{min-height:60vh;display:flex;align-items:center;font-size:clamp(1.5rem,3vw,2.5rem);line-height:1.25;max-width:22ch}
 .nums{display:grid;grid-template-columns:repeat(auto-fit,minmax(10rem,1fr));gap:2rem}
 .nums b{display:block;font-size:clamp(3rem,8vw,6rem);letter-spacing:-.04em;line-height:1}
@@ -44,7 +44,7 @@ h2.big{font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.03em
 .note{font-size:.9rem;opacity:.75;max-width:65ch}
 .trust{display:grid;grid-template-columns:repeat(auto-fit,minmax(min(100%,16rem),1fr));gap:2rem}
 .trust h3{font-size:1.4rem;margin:0 0 .5rem}.trust p{margin:0;max-width:40ch}
-@media(max-width:700px){.steps{grid-template-columns:1fr}.steps .word{position:static}.steps .step{min-height:auto;padding-block:1.5rem}.btn--ghost{margin:.75rem 0 0}}
+@media(max-width:700px){.steps{grid-template-columns:1fr}.steps .word,.steps [data-step-word]{position:static}.steps .step{min-height:auto;padding-block:1.5rem}.btn--ghost{margin:.75rem 0 0}}
 @media(prefers-reduced-motion:reduce){.kinetic,.marquee span{animation:none}}
 </style>
 <script src="js/shop/core.js" defer></script>
@@ -91,7 +91,7 @@ h2.big{font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.03em
 
 <section class="band band--dark" id="how">
   <div class="steps" data-sticky-steps>
-    <div class="word" aria-hidden="true" id="step-word">Choose</div>
+    <div class="word" aria-hidden="true" data-step-word>Choose</div>
     <div>
       <div class="step" data-step="Choose">Choose the help that fits your trip.</div>
       <div class="step" data-step="Pay">Pay at checkout. This demo uses test payments only.</div>
