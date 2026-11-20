@@ -1,0 +1,163 @@
+/* Cart drawer (Senior Developer 2). A cart button in the header and a drawer on every shop page.
+   Lines live in Shop.cart(); prices come only from the service's quote. Opens on 'shop:cart-open'. */
+(function () {
+  'use strict';
+  var S = window.Shop;
+  if (!S) return;
+  var drawer, backdrop, body, foot, btn, countEl, opener, quoteSeq = 0, quote = null, lastFocus = null;
+
+  function el(tag, cls, html) { var e = document.createElement(tag); if (cls) e.className = cls; if (html != null) e.innerHTML = html; return e; }
+
+  function build() {
+    backdrop = el('div', 'shop-sheet-backdrop cart-backdrop');
+    drawer = el('aside', 'shop-sheet cart-drawer');
+    drawer.id = 'cart-drawer';
+    drawer.setAttribute('role', 'dialog'); drawer.setAttribute('aria-modal', 'true'); drawer.setAttribute('aria-labelledby', 'cart-title');
+    drawer.setAttribute('aria-hidden', 'true'); drawer.hidden = true;
+    drawer.innerHTML = '<header class="cart-head"><h2 id="cart-title">Your cart</h2>' +
+      '<button type="button" class="cart-close" aria-label="Close cart">&times;</button></header>' +
+      '<div class="cart-body" aria-live="polite"></div><footer class="cart-foot"></footer>';
+    document.body.appendChild(backdrop); document.body.appendChild(drawer);
+    body = drawer.querySelector('.cart-body'); foot = drawer.querySelector('.cart-foot');
+    drawer.querySelector('.cart-close').addEventListener('click', close);
+    backdrop.addEventListener('click', close);
+    document.addEventListener('keydown', function (e) {
+      if (!drawer.classList.contains('is-open')) return;
+      if (e.key === 'Escape') { close(); return; }
+      if (e.key === 'Tab') {
+        var f = drawer.querySelectorAll('button:not([disabled]), a[href], input, select');
+        if (!f.length) return;
+        var first = f[0], last = f[f.length - 1];
+        if (e.shiftKey && document.activeElement === first) { e.preventDefault(); last.focus(); }
+        else if (!e.shiftKey && document.activeElement === last) { e.preventDefault(); first.focus(); }
+      }
+    });
+    body.addEventListener('click', onBodyClick);
+  }
+
+  function mountButton() {
+    btn = el('button', 'cart-button');
+    btn.type = 'button';
+    btn.setAttribute('aria-haspopup', 'dialog'); btn.setAttribute('aria-controls', 'cart-drawer');
+    btn.innerHTML = '<svg viewBox="0 0 24 24" width="20" height="20" aria-hidden="true" focusable="false"><path d="M3 4h2l2.2 10.2a1 1 0 0 0 1 .8h8.6a1 1 0 0 0 1-.8L19 8H6.2" fill="none" stroke="currentColor" stroke-width="1.8" stroke-linecap="round" stroke-linejoin="round"/><circle cx="9" cy="19" r="1.4" fill="currentColor"/><circle cx="17" cy="19" r="1.4" fill="currentColor"/></svg>' +
+      '<span class="cart-button-label">Cart</span><span class="cart-count" aria-hidden="true">0</span>';
+    countEl = btn.querySelector('.cart-count');
+    btn.addEventListener('click', open);
+    place();
+    // nav.js adds the header after load; retry briefly, otherwise stay as a floating button.
+    var tries = 0, t = setInterval(function () { if (place() || ++tries > 20) clearInterval(t); }, 150);
+  }
+  function place() {
+    var host = document.querySelector('header .site-nav, header nav, .site-header nav, header');
+    if (host && btn.parentNode !== host) {
+      btn.classList.remove('cart-button--float');
+      host.appendChild(btn);
+      return true;
+    }
+    if (!btn.parentNode) { btn.classList.add('cart-button--float'); document.body.appendChild(btn); }
+    return !!host;
+  }
+
+  function open() {
+    lastFocus = document.activeElement;
+    drawer.hidden = false;
+    requestAnimationFrame(function () { drawer.classList.add('is-open'); backdrop.classList.add('is-open'); });
+    drawer.setAttribute('aria-hidden', 'false');
+    document.documentElement.classList.add('cart-lock');
+    if (btn) btn.setAttribute('aria-expanded', 'true');
+    render();
+    setTimeout(function () { var c = drawer.querySelector('.cart-close'); if (c) c.focus(); }, 60);
+  }
+  function close() {
+    drawer.classList.remove('is-open'); backdrop.classList.remove('is-open');
+    drawer.setAttribute('aria-hidden', 'true');
+    document.documentElement.classList.remove('cart-lock');
+    if (btn) btn.setAttribute('aria-expanded', 'false');
+    setTimeout(function () { if (!drawer.classList.contains('is-open')) drawer.hidden = true; }, 350);
+    if (lastFocus && lastFocus.focus) lastFocus.focus();
+  }
+
+  function updateCount() {
+    var n = S.cartCount();
+    if (countEl) { countEl.textContent = n > 99 ? '99+' : n; countEl.hidden = n === 0; }
+    if (btn) btn.setAttribute('aria-label', 'Cart, ' + n + (n === 1 ? ' item' : ' items'));
+  }
+
+  function fallbackName(line, catalog) {
+    var items = (catalog && (catalog.items || catalog.services || [])) || [];
+    for (var i = 0; i < items.length; i++) if (items[i].id === line.item) return items[i].name;
+    return line.item;
+  }
+
+  function render() {
+    updateCount();
+    var lines = S.cart();
+    if (!lines.length) {
+      quote = null;
+      body.innerHTML = '<div class="cart-empty"><p class="cart-empty-title">Your cart is empty</p><p>Pick a service or guide and it will wait for you here.</p>' +
+        '<a class="shop-btn" href="' + S.esc(S.url('pages/services.html')) + '">Browse services</a></div>';
+      foot.innerHTML = '<p class="shop-testlabel">' + S.esc(S.TEST_LABEL) + '</p>';
+      return;
+    }
+    var seq = ++quoteSeq;
+    paint(lines, quote && quote.lines && quote.lines.length === lines.length ? quote : null, true);
+    S.api('quote', { items: lines, coupon: 'best', customer: S.customerId() }).then(function (q) {
+      if (seq !== quoteSeq) return;
+      quote = q; paint(S.cart(), q, false);
+    }).catch(function (err) {
+      if (seq !== quoteSeq) return;
+      paint(S.cart(), null, false, err.message);
+    });
+  }
+
+  function paint(lines, q, loading, error) {
+    var html = '<ul class="cart-lines">';
+    lines.forEach(function (l, i) {
+      var ql = q && q.lines && q.lines[i];
+      var name = ql ? ql.name : l.item;
+      var meta = ql && ql.summary ? ql.summary : '';
+      var price = ql ? S.money(ql.total, q.currency) : (loading ? '…' : '');
+      html += '<li class="cart-line" data-i="' + i + '"><div class="cart-line-main"><p class="cart-line-name">' + S.esc(name) + '</p>' +
+        (meta ? '<p class="cart-line-meta">' + S.esc(meta) + '</p>' : '') +
+        (l.note ? '<p class="cart-line-meta">Note: ' + S.esc(l.note) + '</p>' : '') + '</div>' +
+        '<p class="cart-line-price">' + price + '</p>' +
+        '<div class="shop-stepper cart-stepper" role="group" aria-label="Quantity of ' + S.esc(name) + '">' +
+        '<button type="button" data-act="dec" aria-label="One fewer">&minus;</button><output>' + l.qty + '</output>' +
+        '<button type="button" data-act="inc" aria-label="One more">+</button></div>' +
+        '<button type="button" class="cart-remove" data-act="rm" aria-label="Remove ' + S.esc(name) + '">Remove</button></li>';
+    });
+    html += '</ul>';
+    if (error) html += '<p class="cart-error" role="alert">' + S.esc(error) + '</p>';
+    body.innerHTML = html;
+
+    var f = '';
+    if (q) {
+      f += '<dl class="cart-sums"><div><dt>Subtotal</dt><dd>' + S.money(q.subtotal, q.currency) + '</dd></div>';
+      if (q.discount) f += '<div class="cart-discount"><dt>' + S.esc(q.discount.name || q.discount.code) + '</dt><dd>&minus;' + S.money(q.discount.amount, q.currency) + '</dd></div>';
+      f += '<div class="cart-total"><dt>Total</dt><dd>' + S.money(q.total, q.currency) + '</dd></div></dl>';
+    } else if (loading) f += '<p class="cart-loading">Checking prices…</p>';
+    f += '<a class="shop-btn cart-checkout" href="' + S.esc(S.url('pages/checkout.html')) + '"' + (q ? '' : ' aria-disabled="' + (loading ? 'true' : 'false') + '"') + '>Check out</a>' +
+      '<p class="shop-testlabel">' + S.esc(S.TEST_LABEL) + '</p>';
+    foot.innerHTML = f;
+  }
+
+  function onBodyClick(e) {
+    var b = e.target.closest('button[data-act]'); if (!b) return;
+    var li = b.closest('.cart-line'), i = +li.dataset.i, lines = S.cart().slice();
+    if (!lines[i]) return;
+    var act = b.dataset.act;
+    if (act === 'inc') lines[i].qty = Math.min(20, lines[i].qty + 1);
+    else if (act === 'dec') { lines[i].qty -= 1; if (lines[i].qty < 1) lines.splice(i, 1); }
+    else if (act === 'rm') lines.splice(i, 1);
+    quote = null;
+    S.saveCart(lines);
+  }
+
+  function init() {
+    build(); mountButton(); updateCount();
+    window.addEventListener('shop:cart', function () { updateCount(); if (drawer.classList.contains('is-open')) render(); });
+    window.addEventListener('shop:cart-open', open);
+    window.addEventListener('storage', function (e) { if (e.key && e.key.indexOf(S.PREFIX + 'cart') === 0) { updateCount(); if (drawer.classList.contains('is-open')) render(); } });
+  }
+  if (document.readyState === 'loading') document.addEventListener('DOMContentLoaded', init); else init();
+})();
