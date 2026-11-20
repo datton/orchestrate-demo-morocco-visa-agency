@@ -9,6 +9,7 @@
 <link rel="stylesheet" href="css/layout.css">
 <link rel="stylesheet" href="css/site.css">
 <link rel="stylesheet" href="css/shop/core.css">
+<link rel="stylesheet" href="css/shop/cart.css">
 <style>
 .hero{min-height:100svh;display:flex;flex-direction:column;justify-content:center;padding-inline:max(1rem,5vw);padding-block:6rem 4rem;background:radial-gradient(60rem 30rem at 85% 10%,color-mix(in srgb,var(--accent) 22%,transparent),transparent 70%),var(--bg,#fff)}
 .hero h1{font-size:clamp(3rem,9vw,7rem);line-height:1;letter-spacing:-.04em;margin:0 0 1.5rem;max-width:16ch}
@@ -48,6 +49,7 @@ h2.big{font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.03em
 @media(prefers-reduced-motion:reduce){.kinetic,.marquee span{animation:none}}
 </style>
 <script src="js/shop/core.js" defer></script>
+<script src="js/shop/cart.js" defer></script>
 <script src="js/nav.js" defer></script>
 <script src="js/motion.js" defer></script>
 <script src="js/app.js" defer></script>
@@ -142,7 +144,7 @@ h2.big{font-size:clamp(2.2rem,6vw,4.5rem);line-height:1.05;letter-spacing:-.03em
   <h2 class="big" data-words>Start with the guides</h2>
   <p class="prose" data-reveal>Our guides walk you through the process in order: what to prepare, what it costs, how long it takes and where the official rule is published.</p>
   <ul class="cards" id="guide-cards">
-    <li class="card" data-reveal><h3>All guides and walkthroughs</h3><p>Browse them on the services page, each with its price and what is included.</p><p><a class="btn" href="pages/services.html#guides">Browse guides</a></p></li>
+    <li class="card" data-reveal><h3>All guides and walkthroughs</h3><p>Browse every guide and walkthrough in one place.</p><p><a class="btn" href="pages/guides/index.html">Browse guides</a></p></li>
     <li class="card" data-reveal><h3>Already bought one?</h3><p>Open it from My purchases on this browser.</p><p><a class="btn" href="pages/account.html">My purchases</a></p></li>
   </ul>
   <p class="guide-note" style="margin-top:2.5rem" data-reveal>General information only, not legal, tax or immigration advice. Always confirm requirements with the official source before you travel.</p>
