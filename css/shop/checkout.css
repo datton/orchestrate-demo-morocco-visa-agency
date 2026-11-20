@@ -25,3 +25,4 @@
 #co-banner:not(:empty) { padding: 1rem 1.2rem; border-radius: 14px; background: #fff3cd; color: #5c4300; margin-bottom: 1.5rem; font-weight: 600; }
 .checkout__empty { text-align: center; }
 .checkout.is-loading #co-lines { opacity: .5; }
+.checkout [hidden] { display: none !important; }
