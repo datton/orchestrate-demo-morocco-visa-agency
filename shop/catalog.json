@@ -1,0 +1,77 @@
+{
+  "brand": {"name": "Morocco Visa Agency", "short": "Morocco Visa", "kind": "services",
+            "tagline": "Calm, clear help with your Morocco travel paperwork"},
+  "currency": "EUR",
+  "timezone": "Europe/Zurich",
+  "demo": true,
+  "stores": [],
+  "categories": [
+    {"id": "services", "name": "Hands-on help", "blurb": "A person checks your application with you"},
+    {"id": "guides", "name": "Guides", "blurb": "Step-by-step reading, yours to keep"},
+    {"id": "walkthroughs", "name": "Walkthroughs", "blurb": "Follow along while you fill in the forms"}
+  ],
+  "options": {
+    "speed": {"name": "Turnaround", "type": "one", "required": true,
+      "choices": [
+        {"id": "standard", "name": "Standard: reply within 2 working days", "price": 0, "default": true},
+        {"id": "priority", "name": "Priority: reply within 1 working day", "price": 1500}
+      ]},
+    "travellers": {"name": "Number of travellers", "type": "one", "required": true,
+      "choices": [
+        {"id": "1", "name": "1 traveller", "price": 0, "default": true},
+        {"id": "2", "name": "2 travellers", "price": 2500},
+        {"id": "3", "name": "3 travellers", "price": 5000},
+        {"id": "4", "name": "4 travellers", "price": 7500}
+      ]},
+    "walkthrough_format": {"name": "Format", "type": "one", "required": true,
+      "choices": [
+        {"id": "video", "name": "Screen-share video walkthrough", "price": 0, "default": true},
+        {"id": "text", "name": "Illustrated text walkthrough", "price": -500}
+      ]},
+    "extras": {"name": "Add-ons", "type": "many", "required": false, "max": 2,
+      "choices": [
+        {"id": "recheck", "name": "Second check before you submit", "price": 1200},
+        {"id": "itinerary", "name": "Day-by-day itinerary draft", "price": 1800}
+      ]}
+  },
+  "items": [
+    {"id": "application-check", "name": "Application check", "category": "services", "price": 4900,
+     "options": ["speed", "travellers", "extras"],
+     "desc": "We read your completed application and supporting documents and tell you in plain language what is missing, unclear or inconsistent, before you submit it.",
+     "includes": ["Review of your application and documents", "A written list of fixes, in order of importance", "One follow-up question by email", "Official sources named for every point"],
+     "tags": ["popular"], "badge": "Most chosen", "soldOut": false},
+    {"id": "document-prep", "name": "Document preparation help", "category": "services", "price": 8900,
+     "options": ["speed", "travellers", "extras"],
+     "desc": "We work through your document list with you: what to gather, how to present it, and what to check on each item. You submit your own application; we never file on your behalf.",
+     "includes": ["Personalised checklist for your trip", "Review of each document you send", "Up to two rounds of feedback", "Official sources named for every point"],
+     "tags": [], "soldOut": false},
+    {"id": "trip-consult", "name": "30-minute planning call", "category": "services", "price": 6500,
+     "options": ["extras"],
+     "desc": "A live call to talk through your trip, your documents and your questions. You leave with a clear next-steps list. General information only, not legal or immigration advice.",
+     "includes": ["30 minutes by video call", "Next-steps list sent after the call"],
+     "tags": [], "soldOut": false},
+    {"id": "guide-first-trip", "name": "Guide: Morocco paperwork for a first trip", "category": "guides", "price": 1900,
+     "options": [],
+     "desc": "A step-by-step guide to what to prepare before you go, with the as-of date and official source for each rule. Unlocks in My purchases.",
+     "includes": ["Step-by-step reading", "What to prepare, and when", "Official source for each rule", "Unlocks in My purchases"],
+     "tags": ["new"], "badge": "New", "soldOut": false},
+    {"id": "guide-documents", "name": "Guide: your document checklist", "category": "guides", "price": 1200,
+     "options": [],
+     "desc": "A printable checklist of the documents travellers commonly need to prepare, with what to double-check on each. Unlocks in My purchases.",
+     "includes": ["Printable checklist", "Common mistakes to avoid", "Official source for each rule", "Unlocks in My purchases"],
+     "tags": [], "soldOut": false},
+    {"id": "walkthrough-form", "name": "Walkthrough: filling in the online application", "category": "walkthroughs", "price": 2900,
+     "options": ["walkthrough_format"],
+     "desc": "Follow along, screen by screen, as the online application is completed: which answers need care, and what to have to hand. Unlocks in My purchases.",
+     "includes": ["Screen-by-screen walkthrough", "What to have to hand before you start", "Unlocks in My purchases"],
+     "tags": ["popular"], "soldOut": false}
+  ],
+  "coupons": [
+    {"code": "WELCOME10", "name": "10% off your first purchase", "type": "percent", "value": 10, "appliesTo": "order",
+     "maxDiscount": 1500, "firstOrderOnly": true},
+    {"code": "BUNDLE5", "name": "€5 off orders of €40", "type": "amount", "value": 500, "minSubtotal": 4000}
+  ],
+  "giftCards": {"amounts": [2500, 5000, 10000], "min": 1000, "max": 50000,
+    "designs": [{"id": "journey", "name": "Bon voyage", "line": "Help with the paperwork, so the trip is the easy part"}]},
+  "loyalty": {"pointsPerDollar": 1, "rewardAt": 200, "reward": "€10 off your next purchase"}
+}
